@@ -1,4 +1,4 @@
-package com.fatiger.framework.rest.config;
+package com.fatiger.framework.core.context;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -18,8 +18,12 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
-
+/**
+ * Created by wengjiayu on 01/11/2017.
+ * E-mail wengjiayu521@163.com
+ */
 @Slf4j
+@SuppressWarnings("NullableProblems")
 public class BaseProperties extends PropertyPlaceholderConfigurer {
 
     private static Map<String, Object> ctxPropertiesMap = new ConcurrentHashMap<>();
@@ -142,7 +146,7 @@ public class BaseProperties extends PropertyPlaceholderConfigurer {
     private static void propertyHandler(Iterator<PropertySource<?>> iter) {
         PropertySource<?> ps = iter.next();
         String name = ps.getName();
-        if (name != null && name.startsWith(CLASS_PATH_RESOURCE)) {
+        if (name.startsWith(CLASS_PATH_RESOURCE)) {
             try {
                 String propertiesName = name.substring(name.indexOf(CHARACTER) + 1, name.lastIndexOf(CHARACTERTWO));
                 loadData(PropertiesLoaderUtils.loadAllProperties(propertiesName));

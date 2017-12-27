@@ -17,6 +17,10 @@ import org.springframework.core.io.ClassPathResource;
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
 public class Run {
     public static void main(String[] args) {
+        String utf8CharsetName = "UTF-8";
+        System.setProperty("file.encoding", utf8CharsetName);
+        System.setProperty("sun.jnu.encoding", utf8CharsetName);
+        System.setProperty("sun.zip.encoding", utf8CharsetName);
         new SpringApplicationBuilder().listeners(new ListenerEvent()).sources(Run.class).banner(new ResourceBanner(new ClassPathResource("banner.txt"))).run(args);
     }
 }

@@ -19,8 +19,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <apache.commons.version>3.4</apache.commons.version>
-        <apache.common.collections>3.2.2</apache.common.collections>
+        <apache.commons.version>3.5</apache.commons.version>
+        <apache.common.collections>4.1</apache.common.collections>
         <junit.version>4.12</junit.version>
         <cglib.version>3.2.4</cglib.version>
         <mybatis.spring.version>1.3.0</mybatis.spring.version>
@@ -68,6 +68,17 @@
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger2</artifactId>
                 <version>${springfox.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${apache.commons.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>${apache.common.collections}</version>
             </dependency>
 
             <dependency>
@@ -198,6 +209,7 @@
         <module>xframework-rest</module>
         <module>xframework-common</module>
         <module>xframework-test</module>
+        <module>constant</module>
     </modules>
 
 </project>

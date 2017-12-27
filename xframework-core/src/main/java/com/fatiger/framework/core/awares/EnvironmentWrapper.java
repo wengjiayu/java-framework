@@ -1,4 +1,4 @@
-package com.fatiger.framework.rest.awares;
+package com.fatiger.framework.core.awares;
 
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +10,7 @@ import org.springframework.core.env.Environment;
  */
 
 @Configuration
-public class EnvironmentAwareImpl implements EnvironmentAware {
+public class EnvironmentWrapper implements EnvironmentAware {
     @Override
     public void setEnvironment(Environment event) {
 //        BaseProperties.loadData(event);

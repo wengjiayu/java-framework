@@ -1,7 +1,9 @@
 package com.fatiger.framework.rest.filter;
 
+import com.fatiger.framework.common.utils.IPUtil;
 import com.google.common.base.Stopwatch;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -16,6 +18,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import static com.fatiger.framework.constant.General.*;
+
 /**
  * @author wengjiayu
  * @date 16/12/2017
@@ -24,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Component
 @WebFilter(filterName = "APIFilter", urlPatterns = "/*")
-public class Filter implements javax.servlet.Filter ,InitializingBean {
+public class Filter implements javax.servlet.Filter, InitializingBean {
 
     private static final String UNKNOWN_STRING = "unknown";
 
@@ -50,12 +54,18 @@ public class Filter implements javax.servlet.Filter ,InitializingBean {
 
 
         try {
+
+            buildRequestId(httpRequest);
+
+
             filterChain.doFilter(httpRequest, httpResponse);
+            
         } catch (Exception e) {
             log.error(String.format("!!! ExceptionLogHttp method:%s, url:%s, reqHeader:%s, case:%s", httpRequest.getMethod(),
                     fullPath(httpRequest), getHeader(httpRequest), e.getMessage()), e);
         } finally {
             log.debug("=== Access method [" + httpRequest.getMethod() + "]、url [{}], cost time [{}] ms )", fullPath(httpRequest), sp.stop().elapsed(TimeUnit.MILLISECONDS));
+            MDC.clear();
         }
 
 
@@ -84,6 +94,20 @@ public class Filter implements javax.servlet.Filter ,InitializingBean {
             path.append("?").append(req.getQueryString());
         }
         return path.toString();
+    }
+
+    private void buildRequestId(HttpServletRequest httpRequest) {
+        String requestId = MDC.get(TRACE_ID);
+        if (StringUtils.isEmpty(requestId)) {
+            requestId = httpRequest.getHeader(REQUEST_ID);
+            if (StringUtils.isEmpty(requestId)) {
+                requestId = IPUtil.getOneLocalIP();
+            }
+
+        }
+        MDC.put(REQUEST_ID, requestId);
+        MDC.put(SERVER_IP, IPUtil.getOneLocalIP());
+        MDC.put(CLINET_IP, getRemoteAddr(httpRequest));
     }
 
     public String getRemoteAddr(HttpServletRequest request) {
