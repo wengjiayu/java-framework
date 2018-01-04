@@ -20,20 +20,20 @@ public class GlobalInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        log.info("=============== 拦截器前置 =============");
+        log.debug("=============== 拦截器前置 =============");
         return true;
     }
 
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable ModelAndView modelAndView) throws Exception {
-        log.info("=============== 拦截器后置 =============");
+        log.debug("=============== 拦截器后置 =============");
 
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable Exception ex) throws Exception {
-        log.info("=============== 执行完成时 =============");
+        log.debug("=============== 执行完成时 =============");
     }
 
 }

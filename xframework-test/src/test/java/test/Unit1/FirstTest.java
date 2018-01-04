@@ -11,8 +11,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.inject.Inject;
-
 /**
  * @author wengjiayu
  * @date 16/12/2017
@@ -27,7 +25,7 @@ import javax.inject.Inject;
 @Import(value = {EnvironmentWrapper.class, SpringContextWrapper.class})
 public class FirstTest {
 
-    @Inject
+    @Autowired
     private SpringContextWrapper springContextWrapper;
 
     @Test
@@ -36,7 +34,14 @@ public class FirstTest {
 //        List.of("1","2","3").stream().forEach(s -> s.toString());
 
 
-        System.out.println("================" + springContextWrapper);
+        System.out.println("================" + springContextWrapper.getBean("createObj"));
+
+        try {
+            Thread.sleep(2000L);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("================" + springContextWrapper.getBean("createObj"));
 
 ////
 //        while (true) {
@@ -54,4 +59,6 @@ public class FirstTest {
 //        System.out.println("===============" + System.getProperty("java.ext.dirs"));
 
     }
+
+
 }
