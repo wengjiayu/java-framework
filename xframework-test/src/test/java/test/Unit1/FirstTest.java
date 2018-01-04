@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.inject.Inject;
+
 /**
  * @author wengjiayu
  * @date 16/12/2017
@@ -25,8 +27,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @Import(value = {EnvironmentWrapper.class, SpringContextWrapper.class})
 public class FirstTest {
 
-    @Autowired
-    private SpringContextWrapper apiController;
+    @Inject
+    private SpringContextWrapper springContextWrapper;
 
     @Test
     public void serviceTest() {
@@ -34,20 +36,20 @@ public class FirstTest {
 //        List.of("1","2","3").stream().forEach(s -> s.toString());
 
 
-        System.out.println("================" + apiController);
+        System.out.println("================" + springContextWrapper);
 
+////
+//        while (true) {
 //
-        while (true) {
-
-
-            try {
-                Thread.currentThread().wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-
-        }
+//
+//            try {
+//                Thread.currentThread().wait();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//
+//
+//        }
 
 //        System.out.println("===============" + System.getProperty("java.ext.dirs"));
 

@@ -5,9 +5,9 @@ import com.google.common.base.Stopwatch;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.ManagedBean;
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +26,7 @@ import static com.fatiger.framework.constant.General.*;
  * @E-mail wengjiayu521@163.com
  */
 @Slf4j
-@Component
+@ManagedBean
 @WebFilter(filterName = "APIFilter", urlPatterns = "/*")
 public class Filter implements javax.servlet.Filter, InitializingBean {
 
@@ -59,7 +59,7 @@ public class Filter implements javax.servlet.Filter, InitializingBean {
 
 
             filterChain.doFilter(httpRequest, httpResponse);
-            
+
         } catch (Exception e) {
             log.error(String.format("!!! ExceptionLogHttp method:%s, url:%s, reqHeader:%s, case:%s", httpRequest.getMethod(),
                     fullPath(httpRequest), getHeader(httpRequest), e.getMessage()), e);

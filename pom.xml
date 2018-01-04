@@ -209,7 +209,7 @@
         <module>xframework-rest</module>
         <module>xframework-common</module>
         <module>xframework-test</module>
-        <module>constant</module>
+        <module>xframework-constant</module>
     </modules>
 
 </project>
