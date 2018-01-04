@@ -1,6 +1,6 @@
 package com.fatiger.framework.rest.event;
 
-import com.fatiger.framework.rest.config.BaseProperties;
+import com.fatiger.framework.core.context.BaseProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
