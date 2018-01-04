@@ -1,10 +1,10 @@
 package com.fatiger.framework.common.utils;
 
+import com.fatiger.framework.constant.ExceptionError;
 import com.fatiger.framework.core.awares.SpringContextWrapper;
 import com.fatiger.framework.core.context.BaseProperties;
 import com.fatiger.framework.core.exception.SysException;
 import com.google.common.base.Stopwatch;
-import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.*;
 import org.apache.http.client.config.RequestConfig;
@@ -13,7 +13,6 @@ import org.apache.http.client.methods.*;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
 import org.apache.http.config.SocketConfig;
-import org.apache.http.conn.ConnectionKeepAliveStrategy;
 import org.apache.http.conn.DnsResolver;
 import org.apache.http.conn.HttpConnectionFactory;
 import org.apache.http.conn.ManagedHttpClientConnection;
@@ -39,6 +38,7 @@ import org.slf4j.MDC;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -46,12 +46,12 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 import static com.fatiger.framework.constant.ExceptionError.*;
-import static com.fatiger.framework.constant.General.DEFAULT_CHARSET;
+import static com.fatiger.framework.constant.General.*;
 import static com.fatiger.framework.constant.PropertiesCons.HTTP_RECEIVE_TIMEOUT_THRESHOLD;
 import static com.fatiger.framework.constant.PropertiesCons.HTTP_RECEIVE_TIMEOUT_THRESHOLD_DEFAULT;
 
 /**
- * HtpClient4.0封装
+ * HttpClient4.0封装
  *
  * @author wengjiayu
  */
@@ -68,7 +68,6 @@ public class HttpClientUtil {
     private static volatile boolean isMetricsEnable = true;
 
     private static long receiveTimeoutMs = BaseProperties.getProperty(HTTP_RECEIVE_TIMEOUT_THRESHOLD, Long.class, HTTP_RECEIVE_TIMEOUT_THRESHOLD_DEFAULT);
-    private static volatile LatencyStatsRegistry latencyStatsRegistry;
 
     private HttpClientUtil() {
     }
@@ -79,9 +78,9 @@ public class HttpClientUtil {
         if (httpClient == null) {
             synchronized (CloseableHttpClient.class) {
                 if (httpClient == null) {
-                    ConnectionSocketFactory plainsf = PlainConnectionSocketFactory.getSocketFactory();
+                    ConnectionSocketFactory connectionSocketFactory = PlainConnectionSocketFactory.getSocketFactory();
                     Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
-                            .register("http", plainsf)
+                            .register("http", connectionSocketFactory)
                             .register("https", SSLConnectionSocketFactory.getSystemSocketFactory()).build();
                     HttpConnectionFactory<HttpRoute, ManagedHttpClientConnection> connFactory = new ManagedHttpClientConnectionFactory(
                             DefaultHttpRequestWriterFactory.INSTANCE, DefaultHttpResponseParserFactory.INSTANCE);
@@ -107,8 +106,6 @@ public class HttpClientUtil {
                             .build();
 
                     Object httpRequestInterceptor = getInterceptorBean("TraceHttpClientRequestInterceptor");
-                    ExceptionRetryHandler retryHandler = new ExceptionRetryHandler(10, BaseProperties.getProperty(PropConsts.Common.HTTPCLIENT_CONNRESETRETRY_ENABLE, Boolean.class, true),
-                            BaseProperties.getProperty(PropConsts.Common.HTTPCLIENT_CONNTIMEOUTRETRY_ENABLE, Boolean.class, false));
 
                     HttpClientBuilder httpClientBuilder = HttpClients.custom()
                             .setConnectionManager(connManager)
@@ -117,16 +114,16 @@ public class HttpClientUtil {
                             .evictIdleConnections(10, TimeUnit.SECONDS)
                             .setDefaultRequestConfig(requestConfig)
                             .setConnectionReuseStrategy(DefaultConnectionReuseStrategy.INSTANCE)
-                            .setKeepAliveStrategy(new ConnectionKeepAliveStrategy())
-                            .setRetryHandler(retryHandler);
+                            .setKeepAliveStrategy((r, c) -> Duration.ofMinutes(25).toMillis()) //keep alive duration
+                            .setRetryHandler(null);
 
                     if (httpRequestInterceptor != null) {
-                        httpClientBuilder.addInterceptorFirst((HttpRequestInterceptor) httpRequestInterceptor); //request trace filter
+                        httpClientBuilder.addInterceptorFirst((HttpRequestInterceptor) httpRequestInterceptor);
                     }
 
                     httpClient = httpClientBuilder.build();
 
-                    Thread closeThread = new IdleConnectionMonitorThread(connManager);
+                    ConnectionCloseableMonitor closeThread = new ConnectionCloseableMonitor(connManager);
                     closeThread.setDaemon(true);
                     closeThread.start();
                 }
@@ -138,33 +135,13 @@ public class HttpClientUtil {
 
 
     private static Object getInterceptorBean(String beanName) {
-        Object bean = null;
+        Object bean;
         try {
             bean = SpringContextWrapper.getBean(beanName);
         } catch (Exception e) {
-            return bean;
+            return null;
         }
         return bean;
-    }
-
-    private static void tryMetricsMark(String method, String path, long durationMillis) {
-        List<Object> urlPatterns = Lists.newArrayList(); // use Metrics configuration @3D
-        if (!urlPatterns.contains(path)) {
-            return;
-        }
-        String name = MetricRegistry.name(TIMER_PREFIX, method, path);
-        if (!isMetricsEnable) {
-            return;
-        }
-        if (latencyStatsRegistry == null) {
-            try {
-                latencyStatsRegistry = getBean(LatencyStatsRegistry.class);
-            } catch (Exception ignored) {
-                isMetricsEnable = false;
-                return;
-            }
-        }
-        latencyStatsRegistry.getLatencyStatsInstance(name).recordLatency(durationMillis);
     }
 
 
@@ -179,9 +156,7 @@ public class HttpClientUtil {
         if (httpResponseInterceptor != null) {
             try {
                 ((HttpResponseInterceptor) httpResponseInterceptor).process(httpResponse, null);
-            } catch (HttpException e) {
-                log.debug("Exception occurred while trying to send response span ", e);
-            } catch (IOException e) {
+            } catch (HttpException | IOException e) {
                 log.debug("Exception occurred while trying to send response span ", e);
             }
 
@@ -518,15 +493,12 @@ public class HttpClientUtil {
      *
      * @param jsonStr json
      */
-    public static String sendHttpDeleteByRetry(String httpUrl, String jsonStr, long timeout, TimeUnit timeUnit,
-                                               int retryCount,
-                                               Header... headers) {
+    public static String sendHttpDeleteByRetry(String httpUrl, String jsonStr, long timeout, TimeUnit timeUnit, int retryCount, Header... headers) {
         HttpDelete httpDelete = new HttpDelete(httpUrl);// 创建httpDete
         try {
             // 设置参数
             StringEntity stringEntity = new StringEntity(jsonStr, DEFAULT_CHARSET.displayName());
             stringEntity.setContentType(ContentType.APPLICATION_JSON.getMimeType());
-            httpDelete.setEntity(stringEntity);
             if (headers != null) {
                 httpDelete.setHeaders(headers);
             }
@@ -702,7 +674,7 @@ public class HttpClientUtil {
         long startTimeNano = System.nanoTime();
         Stopwatch sp = Stopwatch.createStarted();
         if (httpRequestBase == null) {
-            throw new SysException(SysErrorConsts.SYS_ERROR_CODE, "httpRequestBase is null!");
+            throw new SysException(ExceptionError.SYS_ERROR_CODE, "httpRequestBase is null!");
         }
         CloseableHttpResponse response = null;
         String responseContent = null;
@@ -726,16 +698,13 @@ public class HttpClientUtil {
                 responseContent = EntityUtils.toString(entity, entity.getContentEncoding() != null ? entity.getContentEncoding().getValue() : DEFAULT_CHARSET.displayName());
                 int statusCode = response.getStatusLine().getStatusCode();
                 if (statusCode >= 400) {
-                    throw new SysException(SysErrorConsts.SYS_ERROR_CODE,
+                    throw new SysException(ExceptionError.SYS_ERROR_CODE,
                             "httpStatus: " + statusCode + ", result: " + responseContent);
                 }
             }
             return responseContent;
         } finally {
             closeResources(response, httpRequestBase);
-            tryMetricsMark(httpRequestBase.getMethod().toLowerCase(), httpRequestBase.getURI().getPath(),
-                    System.nanoTime() - startTimeNano);
-
             tryCloseTrace(response);
             showSlowHttpClient(sp, url);
         }
@@ -777,9 +746,6 @@ public class HttpClientUtil {
             }
         } finally {
             closeResources(response, httpRequestBase);
-            tryMetricsMark(httpRequestBase.getMethod().toLowerCase(), httpRequestBase.getURI().getPath(),
-                    System.nanoTime() - startTimeNano);
-
             tryCloseTrace(response);
             showSlowHttpClient(sp, url);
         }
@@ -814,7 +780,7 @@ public class HttpClientUtil {
     private static void setRequestId(HttpMessage httpMessage) {
         httpMessage.addHeader(REQUEST_ID, MDC.get(REQUEST_ID));
         httpMessage.addHeader(USER_AGENT, IBJ);
-        httpMessage.addHeader(SysRestConsts.HEADER_REQ_TIME, String.valueOf(DateUtil.getTimestampInMillis()));
+        httpMessage.addHeader(HEADER_REQ_TIME, String.valueOf(DateUtil.getTimestampInMillis()));
     }
 
 

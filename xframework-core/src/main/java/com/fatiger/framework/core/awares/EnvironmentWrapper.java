@@ -1,5 +1,6 @@
 package com.fatiger.framework.core.awares;
 
+import com.fatiger.framework.core.context.BaseProperties;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -14,6 +15,7 @@ public class EnvironmentWrapper implements EnvironmentAware {
     @Override
     public void setEnvironment(Environment event) {
 //        BaseProperties.loadData(event);
+        BaseProperties.loadData(event);
     }
 //    @Bean
 //    @Conditional(SpringContextCondition.class)

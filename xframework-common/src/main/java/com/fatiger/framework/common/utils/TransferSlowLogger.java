@@ -3,7 +3,7 @@ package com.fatiger.framework.common.utils;
 import org.slf4j.Logger;
 import org.slf4j.MDC;
 
-import static com.fatiger.framework.constant.General.CLINET_IP;
+import static com.fatiger.framework.constant.General.CLIENT_IP;
 import static com.fatiger.framework.constant.General.SERVER_IP;
 
 
@@ -20,7 +20,7 @@ public class TransferSlowLogger {
                 if (timeDifference >= timeout) {
                     log.warn("SlowLogHttp transfer_time_out(ms):{}; sent_at:{}; received_at:{}; client_ip:{}; server_ip:{}; request_url:{};",
                             timeDifference, DateUtil.dateToString(requestTime), DateUtil.dateToString(receiveTimestamp),
-                            MDC.get(CLINET_IP), MDC.get(SERVER_IP), path);
+                            MDC.get(CLIENT_IP), MDC.get(SERVER_IP), path);
                 }
             }
         } catch (Exception e) {

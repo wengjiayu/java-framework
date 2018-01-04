@@ -12,8 +12,10 @@ public class General {
 
     public static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
     public static final String SERVER_IP = "serverIp";
-    public static final String CLINET_IP = "clientIp";
+    public static final String CLIENT_IP = "clientIp";
     public static final String REQUEST_ID = "requestId";
     public static final String TRACE_ID = "traceId";
+    public static final String HEADER_REQ_TIME = "headerReqTime";
+
 
 }

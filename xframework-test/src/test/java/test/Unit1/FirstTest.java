@@ -1,14 +1,15 @@
 package test.Unit1;
 
 
-import com.fatiger.framework.rest.awares.SpringContextAwareImpl;
+import com.fatiger.framework.core.awares.EnvironmentWrapper;
+import com.fatiger.framework.core.awares.SpringContextWrapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * @author wengjiayu
@@ -16,16 +17,16 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @E-mail wengjiayu521@163.com
  */
 
-@RunWith(SpringRunner.class)
+//@RunWith(SpringRunner.class)
 @ContextConfiguration(initializers = ConfigFileApplicationContextInitializer.class)
-//@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 
 @SuppressWarnings("all")
-@Import(value = {SpringContextAwareImpl.class})
+@Import(value = {EnvironmentWrapper.class, SpringContextWrapper.class})
 public class FirstTest {
 
     @Autowired
-    private SpringContextAwareImpl apiController;
+    private SpringContextWrapper apiController;
 
     @Test
     public void serviceTest() {
@@ -33,11 +34,22 @@ public class FirstTest {
 //        List.of("1","2","3").stream().forEach(s -> s.toString());
 
 
-        System.setProperty("spring.active.profiles", "dev");
         System.out.println("================" + apiController);
 
+//
+        while (true) {
 
-        System.out.println("===============" + System.getProperty("java.ext.dirs"));
+
+            try {
+                Thread.currentThread().wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
+//        System.out.println("===============" + System.getProperty("java.ext.dirs"));
 
     }
 }

@@ -107,7 +107,7 @@ public class Filter implements javax.servlet.Filter, InitializingBean {
         }
         MDC.put(REQUEST_ID, requestId);
         MDC.put(SERVER_IP, IPUtil.getOneLocalIP());
-        MDC.put(CLINET_IP, getRemoteAddr(httpRequest));
+        MDC.put(CLIENT_IP, getRemoteAddr(httpRequest));
     }
 
     public String getRemoteAddr(HttpServletRequest request) {
