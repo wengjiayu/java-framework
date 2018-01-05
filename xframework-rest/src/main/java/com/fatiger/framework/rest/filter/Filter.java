@@ -4,10 +4,10 @@ import com.fatiger.framework.common.utils.IPUtil;
 import com.google.common.base.Stopwatch;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.ManagedBean;
+import javax.annotation.PostConstruct;
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +28,7 @@ import static com.fatiger.framework.constant.General.*;
 @Slf4j
 @ManagedBean
 @WebFilter(filterName = "APIFilter", urlPatterns = "/*")
-public class Filter implements javax.servlet.Filter, InitializingBean {
+public class Filter implements javax.servlet.Filter {
 
     private static final String UNKNOWN_STRING = "unknown";
 
@@ -129,7 +129,7 @@ public class Filter implements javax.servlet.Filter, InitializingBean {
         return ip;
     }
 
-    @Override
+    @PostConstruct
     public void afterPropertiesSet() throws Exception {
 
     }
