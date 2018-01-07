@@ -1,7 +1,10 @@
 package com.fatiger.framework.rest.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+
+import javax.annotation.PostConstruct;
 
 /**
  * @author wengjiayu
@@ -10,5 +13,13 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ComponentScan(value = "com.fatiger.framework.rest")
+@Slf4j
 public class RestConfig {
+
+    @PostConstruct
+    public void init(){
+
+        log.info("inited !!!!!!!!!!!!!!!");
+    }
+
 }

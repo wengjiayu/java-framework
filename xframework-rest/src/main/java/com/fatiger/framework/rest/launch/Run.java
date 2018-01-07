@@ -8,6 +8,8 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.core.io.ClassPathResource;
 
+import static com.fatiger.framework.constant.General.DEFAULT_CHARSET;
+
 /**
  * @author wengjiayu
  * @date 15/12/2017
@@ -17,10 +19,9 @@ import org.springframework.core.io.ClassPathResource;
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
 public class Run {
     public static void main(String[] args) {
-        String utf8CharsetName = "UTF-8";
-        System.setProperty("file.encoding", utf8CharsetName);
-        System.setProperty("sun.jnu.encoding", utf8CharsetName);
-        System.setProperty("sun.zip.encoding", utf8CharsetName);
+        System.setProperty("file.encoding", DEFAULT_CHARSET.name());
+        System.setProperty("sun.jnu.encoding", DEFAULT_CHARSET.name());
+        System.setProperty("sun.zip.encoding", DEFAULT_CHARSET.name());
         new SpringApplicationBuilder().listeners(new ListenerEvent()).sources(Run.class).banner(new ResourceBanner(new ClassPathResource("banner.txt"))).run(args);
     }
 }
