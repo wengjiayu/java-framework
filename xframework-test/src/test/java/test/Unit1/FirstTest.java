@@ -34,14 +34,6 @@ public class FirstTest {
 //        List.of("1","2","3").stream().forEach(s -> s.toString());
 
 
-        System.out.println("================" + springContextWrapper.getBean("createObj"));
-
-        try {
-            Thread.sleep(2000L);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println("================" + springContextWrapper.getBean("createObj"));
 
 ////
 //        while (true) {
