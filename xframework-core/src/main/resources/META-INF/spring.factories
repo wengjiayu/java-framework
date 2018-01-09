@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.fatiger.framework.core.awares.EnvironmentWrapper,\
+com.fatiger.framework.core.awares.SpringContextWrapper
