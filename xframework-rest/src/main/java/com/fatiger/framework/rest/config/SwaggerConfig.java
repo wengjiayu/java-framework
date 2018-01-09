@@ -1,5 +1,6 @@
 package com.fatiger.framework.rest.config;
 
+import condition.SwaggerCondition;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;

@@ -27,7 +27,6 @@ import static com.fatiger.framework.constant.General.*;
  */
 @Slf4j
 @ManagedBean
-@WebFilter(filterName = "APIFilter", urlPatterns = "/*")
 public class Filter implements javax.servlet.Filter {
 
     private static final String UNKNOWN_STRING = "unknown";
@@ -56,7 +55,6 @@ public class Filter implements javax.servlet.Filter {
         try {
 
             buildRequestId(httpRequest);
-
 
             filterChain.doFilter(httpRequest, httpResponse);
 

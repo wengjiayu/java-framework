@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
+
 /**
  * Created by wengjiayu on 01/11/2017.
  * E-mail wengjiayu521@163.com
@@ -45,6 +46,8 @@ public class BaseProperties extends PropertyPlaceholderConfigurer {
     @Override
     protected void processProperties(ConfigurableListableBeanFactory beanFactoryToProcess, Properties props) {
         log.info("==========================PropertyPlaceholderConfigurer==============================");
+        log.info("========================================================");
+        log.info("========================================================");
         super.processProperties(beanFactoryToProcess, props);
         if (LOADED_FLAG.get()) {
             loadData(props);

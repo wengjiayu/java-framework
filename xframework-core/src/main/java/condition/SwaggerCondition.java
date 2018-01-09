@@ -1,4 +1,4 @@
-package com.fatiger.framework.rest.config;
+package condition;
 
 import com.fatiger.framework.core.context.BaseProperties;
 import org.springframework.context.annotation.Condition;
