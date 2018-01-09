@@ -16,10 +16,10 @@ public class Start {
     private Start() {
     }
 
-    public static void main(String[] args) {
+    public static void run(Class<?> clazz, String[] args) {
         System.setProperty("file.encoding", DEFAULT_CHARSET.name());
         System.setProperty("sun.jnu.encoding", DEFAULT_CHARSET.name());
         System.setProperty("sun.zip.encoding", DEFAULT_CHARSET.name());
-        new SpringApplicationBuilder().listeners(new ListenerEvent()).sources(Run.class).banner(new ResourceBanner(new ClassPathResource("banner.txt"))).run(args);
+        new SpringApplicationBuilder().listeners(new ListenerEvent()).sources(clazz).banner(new ResourceBanner(new ClassPathResource("banner.txt"))).run(args);
     }
 }
