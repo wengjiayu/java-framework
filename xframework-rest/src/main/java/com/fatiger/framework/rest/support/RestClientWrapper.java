@@ -7,7 +7,7 @@ import com.alibaba.fastjson.parser.Feature;
 import com.fatiger.framework.common.beans.RestInfo;
 import com.fatiger.framework.common.utils.HttpClientUtil;
 import com.fatiger.framework.common.utils.JsonUtil;
-import com.fatiger.framework.constant.ExceptionError;
+import com.fatiger.framework.constant.com.fatiger.framework.constant.dictionary.ExceptionErrorCode;
 import com.fatiger.framework.core.context.BaseProperties;
 import com.fatiger.framework.core.exception.SysException;
 import lombok.extern.slf4j.Slf4j;
@@ -55,7 +55,7 @@ public final class RestClientWrapper {
         if (this.restConfigs.isEmpty()) {
             String restConfigFileName = BaseProperties.getString("rest.config.filename");
             if (restConfigFileName == null) {
-                throw new SysException(ExceptionError.SYS_ERROR_CODE, "${rest.config.filename} is null, check your properties");
+                throw new SysException(ExceptionErrorCode.SYS_ERROR_CODE, "${rest.config.filename} is null, check your properties");
             }
 
             try {
@@ -85,7 +85,7 @@ public final class RestClientWrapper {
                     }
                 }
             } catch (Exception var17) {
-                throw new SysException(ExceptionError.SYS_ERROR_CODE, var17.getMessage(), var17);
+                throw new SysException(ExceptionErrorCode.SYS_ERROR_CODE, var17.getMessage(), var17);
             }
         }
 
@@ -98,7 +98,7 @@ public final class RestClientWrapper {
 
     public String call(String configId, Object[] configParam, Header[] headers, String paramData) {
         if (StringUtils.isEmpty(configId)) {
-            throw new SysException(ExceptionError.SYS_ERROR_CODE, "configId is null or empty");
+            throw new SysException(ExceptionErrorCode.SYS_ERROR_CODE, "configId is null or empty");
         } else {
             this.loadData();
             RestInfo restInfo = this.restConfigs.get(configId);
@@ -135,14 +135,14 @@ public final class RestClientWrapper {
                 log.debug("=== Request URI : {}", restInfo.getServicehost() + restInfo.getRelativePath());
 
                 if (requestBase == null) {
-                    throw new SysException(ExceptionError.SYS_ERROR_CODE, "Specified HTTP Method [" + httpMethod.toString() + "] is not invalid");
+                    throw new SysException(ExceptionErrorCode.SYS_ERROR_CODE, "Specified HTTP Method [" + httpMethod.toString() + "] is not invalid");
                 } else {
                     (requestBase).setHeaders(headers);
                     return HttpClientUtil.sendHttpRequest((HttpRequestBase) requestBase, (long) restInfo.getTimeout(), TimeUnit.SECONDS);
                 }
 
             } else {
-                throw new SysException(ExceptionError.SYS_ERROR_CODE, "configId: " + configId + ", [serviceHost] or [relativePath] or [httpMethod] is null or empty,please check rest-config-*.json");
+                throw new SysException(ExceptionErrorCode.SYS_ERROR_CODE, "configId: " + configId + ", [serviceHost] or [relativePath] or [httpMethod] is null or empty,please check rest-config-*.json");
             }
         }
     }

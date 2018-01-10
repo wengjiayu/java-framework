@@ -1,4 +1,4 @@
-package com.fatiger.framework.constant;
+package com.fatiger.framework.constant.com.fatiger.framework.constant.dictionary;
 
 /**
  * @author wengjiayu

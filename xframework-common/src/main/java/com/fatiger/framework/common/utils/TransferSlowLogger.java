@@ -3,8 +3,8 @@ package com.fatiger.framework.common.utils;
 import org.slf4j.Logger;
 import org.slf4j.MDC;
 
-import static com.fatiger.framework.constant.General.CLIENT_IP;
-import static com.fatiger.framework.constant.General.SERVER_IP;
+import static com.fatiger.framework.constant.com.fatiger.framework.constant.dictionary.General.CLIENT_IP;
+import static com.fatiger.framework.constant.com.fatiger.framework.constant.dictionary.General.SERVER_IP;
 
 
 public class TransferSlowLogger {

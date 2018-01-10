@@ -1,4 +1,4 @@
-package com.fatiger.framework.constant;
+package com.fatiger.framework.constant.com.fatiger.framework.constant.dictionary;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;

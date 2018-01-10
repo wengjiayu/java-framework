@@ -1,4 +1,4 @@
-package com.fatiger.framework.constant;
+package dictionary;
 
 /**
  * Created by wengjiayu on 01/11/2017.

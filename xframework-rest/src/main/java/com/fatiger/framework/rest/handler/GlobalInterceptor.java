@@ -1,7 +1,9 @@
 package com.fatiger.framework.rest.handler;
 
+import com.fatiger.framework.constant.com.fatiger.framework.constant.annotation.PermissionLimit;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -19,8 +21,20 @@ public class GlobalInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
         log.debug("=============== 拦截器前置 =============");
+
+        if (!(handler instanceof HandlerMethod)) {
+            return super.preHandle(request, response, handler);
+        }
+
+        HandlerMethod method = (HandlerMethod) handler;
+        PermissionLimit permission = method.getMethodAnnotation(PermissionLimit.class);
+        if (permission != null && permission.limit()) {
+
+            // TODO: 10/01/2018 校验登录
+//                throw new SysException(APP_ERROR_CODE, "登陆失效");
+        }
+
         return true;
     }
 

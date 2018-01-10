@@ -1,6 +1,6 @@
 package com.fatiger.framework.common.utils;
 
-import com.fatiger.framework.constant.ExceptionError;
+import com.fatiger.framework.constant.com.fatiger.framework.constant.dictionary.ExceptionErrorCode;
 import com.fatiger.framework.core.awares.SpringContextWrapper;
 import com.fatiger.framework.core.context.BaseProperties;
 import com.fatiger.framework.core.exception.SysException;
@@ -45,10 +45,10 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
-import static com.fatiger.framework.constant.ExceptionError.*;
-import static com.fatiger.framework.constant.General.*;
-import static com.fatiger.framework.constant.PropertiesCons.HTTP_RECEIVE_TIMEOUT_THRESHOLD;
-import static com.fatiger.framework.constant.PropertiesCons.HTTP_RECEIVE_TIMEOUT_THRESHOLD_DEFAULT;
+import static com.fatiger.framework.constant.com.fatiger.framework.constant.dictionary.ExceptionErrorCode.*;
+import static com.fatiger.framework.constant.com.fatiger.framework.constant.dictionary.General.*;
+import static com.fatiger.framework.constant.com.fatiger.framework.constant.dictionary.PropertiesCons.HTTP_RECEIVE_TIMEOUT_THRESHOLD;
+import static com.fatiger.framework.constant.com.fatiger.framework.constant.dictionary.PropertiesCons.HTTP_RECEIVE_TIMEOUT_THRESHOLD_DEFAULT;
 
 /**
  * HttpClient4.0封装
@@ -674,7 +674,7 @@ public class HttpClientUtil {
         long startTimeNano = System.nanoTime();
         Stopwatch sp = Stopwatch.createStarted();
         if (httpRequestBase == null) {
-            throw new SysException(ExceptionError.SYS_ERROR_CODE, "httpRequestBase is null!");
+            throw new SysException(ExceptionErrorCode.SYS_ERROR_CODE, "httpRequestBase is null!");
         }
         CloseableHttpResponse response = null;
         String responseContent = null;
@@ -698,7 +698,7 @@ public class HttpClientUtil {
                 responseContent = EntityUtils.toString(entity, entity.getContentEncoding() != null ? entity.getContentEncoding().getValue() : DEFAULT_CHARSET.displayName());
                 int statusCode = response.getStatusLine().getStatusCode();
                 if (statusCode >= 400) {
-                    throw new SysException(ExceptionError.SYS_ERROR_CODE,
+                    throw new SysException(ExceptionErrorCode.SYS_ERROR_CODE,
                             "httpStatus: " + statusCode + ", result: " + responseContent);
                 }
             }
