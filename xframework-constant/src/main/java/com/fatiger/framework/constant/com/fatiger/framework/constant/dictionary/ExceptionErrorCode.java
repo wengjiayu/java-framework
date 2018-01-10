@@ -1,12 +1,12 @@
-package dictionary;
+package com.fatiger.framework.constant.com.fatiger.framework.constant.dictionary;
 
 /**
  * Created by wengjiayu on 01/11/2017.
  * E-mail wengjiayu521@163.com
  */
-public class ExceptionError {
+public class ExceptionErrorCode {
 
-    private ExceptionError() {
+    private ExceptionErrorCode() {
     }
 
     public static final Integer SYS_ERROR_CODE = 50000;
@@ -16,5 +16,8 @@ public class ExceptionError {
     public static final Integer HTTP_TIMEOUT_IN_MS = 10000;
     public static final Integer CONNECT_TIMEOUT_IN_MS = 5000;
     public static final Integer REQUEST_TIMEOUT_IN_MS = 5000;
+
+    public static final Integer UNLOGING_ERROR_CODE = 40001;
+
 
 }
