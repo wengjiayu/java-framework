@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import static com.fatiger.framework.constant.com.fatiger.framework.constant.dictionary.General.*;
+import static com.fatiger.framework.constant.com.fatiger.framework.constant.dictionary.GeneralKey.*;
 
 /**
  * @author wengjiayu

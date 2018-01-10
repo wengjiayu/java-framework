@@ -5,7 +5,8 @@ import org.springframework.boot.ResourceBanner;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.core.io.ClassPathResource;
 
-import static com.fatiger.framework.constant.General.DEFAULT_CHARSET;
+import static com.fatiger.framework.constant.com.fatiger.framework.constant.dictionary.GeneralKey.DEFAULT_CHARSET;
+
 
 /**
  * @author wengjiayu

@@ -8,7 +8,7 @@ import java.nio.charset.StandardCharsets;
  * @date 25/12/2017
  * @E-mail wengjiayu521@163.com
  */
-public class General {
+public class GeneralKey {
 
     public static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
     public static final String SERVER_IP = "serverIp";

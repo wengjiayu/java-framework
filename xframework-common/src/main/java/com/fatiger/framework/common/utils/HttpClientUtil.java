@@ -46,7 +46,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 import static com.fatiger.framework.constant.com.fatiger.framework.constant.dictionary.ExceptionErrorCode.*;
-import static com.fatiger.framework.constant.com.fatiger.framework.constant.dictionary.General.*;
+import static com.fatiger.framework.constant.com.fatiger.framework.constant.dictionary.GeneralKey.*;
 import static com.fatiger.framework.constant.com.fatiger.framework.constant.dictionary.PropertiesCons.HTTP_RECEIVE_TIMEOUT_THRESHOLD;
 import static com.fatiger.framework.constant.com.fatiger.framework.constant.dictionary.PropertiesCons.HTTP_RECEIVE_TIMEOUT_THRESHOLD_DEFAULT;
 
