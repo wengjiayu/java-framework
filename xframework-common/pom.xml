@@ -25,6 +25,10 @@
             <artifactId>lombok</artifactId>
         </dependency>
         <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.fatiger.platform</groupId>
             <artifactId>xframework-core</artifactId>
             <version>1.0-SNAPSHOT</version>

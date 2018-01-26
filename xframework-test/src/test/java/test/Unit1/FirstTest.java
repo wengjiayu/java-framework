@@ -30,9 +30,12 @@ public class FirstTest {
 
     @Test
     public void serviceTest() {
+
+
+
+
 //
 //        List.of("1","2","3").stream().forEach(s -> s.toString());
-
 
 
 ////
@@ -52,5 +55,22 @@ public class FirstTest {
 
     }
 
+
+    public static void main(String[] args) {
+
+        System.out.println("开始");
+        new Thread(() -> {
+
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println(System.currentTimeMillis());
+        }).start();
+
+        System.out.println("结束");
+    }
 
 }
