@@ -3,11 +3,7 @@ package com.fatiger.framework.core.awares;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
-
-import java.util.Date;
 
 /**
  * @author wengjiayu
@@ -23,8 +19,12 @@ public class SpringContextWrapper implements ApplicationContextAware {
         return ctx.getBean(beanName);
     }
 
+    public static <T> T getBean(Class<T> clazz) {
+        return ctx.getBean(clazz);
+    }
+
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    public void setApplicationContext(@SuppressWarnings("NullableProblems") ApplicationContext applicationContext) throws BeansException {
         ctx = applicationContext;
     }
 

@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.fatiger.framework.rest.config.BaseConfig
+com.fatiger.framework.rest.config.BaseConfig,\
+com.fatiger.framework.rest.config.SwaggerConfig

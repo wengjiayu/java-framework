@@ -3,16 +3,20 @@ package com.fatiger.framework.common.beans;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * @author wengjiayu
+ */
 @Getter
 @Setter
 public class RestInfo {
 
-    private String servicehost;
+    private String serviceHost;
     private String relativePath;
     private int timeout = 60;
     private String httpMethod;
 
 
+    @Override
     public boolean equals(Object o) {
         if (o == this) {
             return true;
@@ -23,36 +27,36 @@ public class RestInfo {
             if (!other.canEqual(this)) {
                 return false;
             } else {
-                Object this$servicehost = this.getServicehost();
-                Object other$servicehost = other.getServicehost();
-                if (this$servicehost == null) {
-                    if (other$servicehost != null) {
+                Object thisServiceHost = this.getServiceHost();
+                Object otherServiceHost = other.getServiceHost();
+                if (thisServiceHost == null) {
+                    if (otherServiceHost != null) {
                         return false;
                     }
-                } else if (!this$servicehost.equals(other$servicehost)) {
+                } else if (!thisServiceHost.equals(otherServiceHost)) {
                     return false;
                 }
 
-                Object this$relativePath = this.getRelativePath();
-                Object other$relativePath = other.getRelativePath();
-                if (this$relativePath == null) {
-                    if (other$relativePath != null) {
+                Object thisRelativePath = this.getRelativePath();
+                Object otherRelativePath = other.getRelativePath();
+                if (thisRelativePath == null) {
+                    if (otherRelativePath != null) {
                         return false;
                     }
-                } else if (!this$relativePath.equals(other$relativePath)) {
+                } else if (!thisRelativePath.equals(otherRelativePath)) {
                     return false;
                 }
 
                 if (this.getTimeout() != other.getTimeout()) {
                     return false;
                 } else {
-                    Object this$httpMethod = this.getHttpMethod();
-                    Object other$httpMethod = other.getHttpMethod();
-                    if (this$httpMethod == null) {
-                        if (other$httpMethod != null) {
+                    Object thisHttpMethod = this.getHttpMethod();
+                    Object otherHttpMethod = other.getHttpMethod();
+                    if (thisHttpMethod == null) {
+                        if (otherHttpMethod != null) {
                             return false;
                         }
-                    } else if (!this$httpMethod.equals(other$httpMethod)) {
+                    } else if (!thisHttpMethod.equals(otherHttpMethod)) {
                         return false;
                     }
 
@@ -66,21 +70,23 @@ public class RestInfo {
         return other instanceof RestInfo;
     }
 
+    @Override
     public int hashCode() {
         boolean PRIME = true;
         int result = 1;
-        Object $servicehost = this.getServicehost();
-        result = result * 59 + ($servicehost == null ? 0 : $servicehost.hashCode());
-        Object $relativePath = this.getRelativePath();
-        result = result * 59 + ($relativePath == null ? 0 : $relativePath.hashCode());
+        Object serviceHost = this.getServiceHost();
+        result = result * 59 + (serviceHost == null ? 0 : serviceHost.hashCode());
+        Object relativePath = this.getRelativePath();
+        result = result * 59 + (relativePath == null ? 0 : relativePath.hashCode());
         result = result * 59 + this.getTimeout();
-        Object $httpMethod = this.getHttpMethod();
-        result = result * 59 + ($httpMethod == null ? 0 : $httpMethod.hashCode());
+        Object httpMethod = this.getHttpMethod();
+        result = result * 59 + (httpMethod == null ? 0 : httpMethod.hashCode());
         return result;
     }
 
+    @Override
     public String toString() {
-        return "RestInfo(servicehost=" + this.getServicehost() + ", relativePath=" + this.getRelativePath() + ", timeout=" + this.getTimeout() + ", httpMethod=" + this.getHttpMethod() + ")";
+        return "RestInfo(serviceHost=" + this.getServiceHost() + ", relativePath=" + this.getRelativePath() + ", timeout=" + this.getTimeout() + ", httpMethod=" + this.getHttpMethod() + ")";
     }
 
 }

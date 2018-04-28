@@ -27,7 +27,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by wengjiayu on 11/10/2017.
+ * @author wengjiayu
+ * @date 11/10/2017
  * contact E-mail wengjiayu521@163.com
  */
 @Slf4j
@@ -102,7 +103,7 @@ public final class RestClientWrapper {
         } else {
             this.loadData();
             RestInfo restInfo = this.restConfigs.get(configId);
-            String serviceHost = restInfo.getServicehost();
+            String serviceHost = restInfo.getServiceHost();
             String relativePath = restInfo.getRelativePath();
             String httpMethodInfo = restInfo.getHttpMethod();
             if (!StringUtils.isEmpty(serviceHost) && !StringUtils.isEmpty(relativePath) && !StringUtils.isEmpty(httpMethodInfo)) {
@@ -132,13 +133,13 @@ public final class RestClientWrapper {
                         requestBase = new HttpDelete(url);
                 }
 
-                log.debug("=== Request URI : {}", restInfo.getServicehost() + restInfo.getRelativePath());
+                log.debug("=== Request URI : {}", restInfo.getServiceHost() + restInfo.getRelativePath());
 
                 if (requestBase == null) {
                     throw new SysException(ExceptionErrorCode.SYS_ERROR_CODE, "Specified HTTP Method [" + httpMethod.toString() + "] is not invalid");
                 } else {
                     (requestBase).setHeaders(headers);
-                    return HttpClientUtil.sendHttpRequest((HttpRequestBase) requestBase, (long) restInfo.getTimeout(), TimeUnit.SECONDS);
+                    return HttpClientUtil.sendHttpRequest(requestBase, (long) restInfo.getTimeout(), TimeUnit.SECONDS);
                 }
 
             } else {
