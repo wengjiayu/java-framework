@@ -54,12 +54,18 @@
         <beetl.version>2.7.22</beetl.version>
         <ant.version>4.2</ant.version>
         <mybatis-typehandlers-jsr310.version>1.0.1</mybatis-typehandlers-jsr310.version>
+        <springfennec.version>1.0.1</springfennec.version>
     </properties>
 
     <!-- Add typical dependencies for a web application -->
     <dependencyManagement>
 
         <dependencies>
+            <dependency>
+                <groupId>com.juntaki</groupId>
+                <artifactId>springfennec</artifactId>
+                <version>${springfennec.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.mybatis</groupId>
                 <artifactId>mybatis-typehandlers-jsr310</artifactId>
