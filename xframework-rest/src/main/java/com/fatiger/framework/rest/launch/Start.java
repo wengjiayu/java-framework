@@ -1,6 +1,7 @@
 package com.fatiger.framework.rest.launch;
 
 import com.fatiger.framework.rest.event.ListenerEvent;
+import lombok.val;
 import org.springframework.boot.ResourceBanner;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.core.io.ClassPathResource;
@@ -21,6 +22,9 @@ public class Start {
         System.setProperty("file.encoding", DEFAULT_CHARSET.name());
         System.setProperty("sun.jnu.encoding", DEFAULT_CHARSET.name());
         System.setProperty("sun.zip.encoding", DEFAULT_CHARSET.name());
-        new SpringApplicationBuilder().listeners(new ListenerEvent()).sources(clazz).banner(new ResourceBanner(new ClassPathResource("banner.txt"))).run(args);
+        final val applicationBuilder = new SpringApplicationBuilder();
+        applicationBuilder.listeners(new ListenerEvent()).sources(clazz).banner(new ResourceBanner(new ClassPathResource("banner.txt")));
+//        applicationBuilder.application().setWebApplicationType(WebApplicationType.REACTIVE);
+        applicationBuilder.run(args);
     }
 }
